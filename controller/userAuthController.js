@@ -50,7 +50,7 @@ const HandleSignup = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(201).json({ message: "Signup successful" });
+    res.status(201).json({ message: "Signup successful" , user});
   } catch (err) {
     console.error("Signup Error:", err);
     res.status(500).json({ message: "Server error" });
@@ -96,7 +96,7 @@ const HandleLogin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({ message: "Login successful" , user  });
   } catch (err) {
     console.error("Login Error:", err);
     res.status(500).json({ message: "Server error" });

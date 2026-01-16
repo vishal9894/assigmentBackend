@@ -6,13 +6,14 @@ const {
   HandleGetAllUser,
   HandleUpdateUser,
   HandleDeleteUser,
+  HanldeCreateUser,
 } = require("../controller/userController");
 const authMiddleware = require("../middleware/auth");
 const verifyRole = require("../middleware/veryfiyerole");
 
 const route = express.Router();
 
-route.get("/user", authMiddleware,  HandleUserProfiel);
+route.get("/user", authMiddleware, HandleUserProfiel);
 
 route.get(
   "/all-user",
@@ -21,10 +22,12 @@ route.get(
   HandleGetAllUser
 );
 
+route.post("/create", authMiddleware, verifyRole(["admin"]), HanldeCreateUser);
+
 route.put(
   "/user-update/:id",
   authMiddleware,
-  verifyRole(["manager", "admin" , "user"]),
+  verifyRole(["manager", "admin", "user"]),
   HandleUpdateUser
 );
 

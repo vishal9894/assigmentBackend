@@ -1,14 +1,20 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModels");
 
-const authMiddleware = (req, res, next) => {
-  const token = req.cookies.accessToken;
-  if (!token) return res.sendStatus(401);
-
+const authMiddleware = async (req, res, next) => {
   try {
-    req.user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const token = req.cookies.accessToken;
+    if (!token) return res.sendStatus(401);
+
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    const user = await User.findById(decoded.id).select("-password");
+    if (!user) return res.sendStatus(401);
+
+    req.user = user; // ALWAYS DB USER
     next();
-  } catch {
-    res.sendStatus(403);
+  } catch (err) {
+    return res.sendStatus(403);
   }
 };
 
