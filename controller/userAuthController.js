@@ -8,7 +8,6 @@ const {
 
 const isProd = process.env.NODE_ENV === "production";
 
-/* ================= SIGNUP ================= */
 const HandleSignup = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -50,14 +49,23 @@ const HandleSignup = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(201).json({ message: "Signup successful" , user});
+    res.status(201).json({
+      message: "Signup successful",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      },
+      accessToken,
+    });
   } catch (err) {
     console.error("Signup Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-/* ================= LOGIN ================= */
 const HandleLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -96,7 +104,17 @@ const HandleLogin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ message: "Login successful" , user  });
+    res.status(200).json({
+      message: "Login successful",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      },
+      accessToken,
+    });
   } catch (err) {
     console.error("Login Error:", err);
     res.status(500).json({ message: "Server error" });
