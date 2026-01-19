@@ -1,12 +1,13 @@
 const express = require("express");
 const {
   HandleUserProfiel,
-  HandleAdminProfiel,
-  HandleManagerProfiel,
+ 
   HandleGetAllUser,
   HandleUpdateUser,
   HandleDeleteUser,
   HanldeCreateUser,
+ 
+  HandleBulkUserUpload,
 } = require("../controller/userController");
 const authMiddleware = require("../middleware/auth");
 const verifyRole = require("../middleware/veryfiyerole");
@@ -45,6 +46,7 @@ route.delete(
   verifyRole(["admin"]),
   HandleDeleteUser,
 );
+
 
 route.get("/admin", authMiddleware, verifyRole(["admin"]));
 
